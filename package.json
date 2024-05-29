@@ -1,0 +1,22 @@
+{
+  "name": "charm",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "up": "bun upgrade ; bunx taze -a latest -w ; bun update --force ; bun run build ",
+    "format": "bunx @biomejs/biome format --write ./src",
+    "test": "bun test --watch",
+    "clean": "rm -Rf node_modules",
+    "lint": "bunx @biomejs/biome lint ./src"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "optionalDependencies": {
+    "react": "^18",
+    "@types/react": "^18.3.3"
+  }
+}
