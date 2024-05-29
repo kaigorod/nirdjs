@@ -1,2 +1,5 @@
-# charm
-Charm is React-first sub-atomic state management library.
+# What is Charm
+Charm is a state management library.
+
+
+

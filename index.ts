@@ -1,1 +1,2 @@
-console.log("Hello via Bun!");
+import { charm } from "./src/charm";
+export charm;

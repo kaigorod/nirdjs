@@ -2,6 +2,25 @@
   "name": "charm",
   "module": "index.ts",
   "type": "module",
+  "license": "Apache-2.0",
+
+  "author": "Dima Kaigorodov",
+  "keywords": [
+    "react",
+    "state",
+    "manager",
+    "management",
+    "recoil",
+    "jotai",
+    "atom",
+    "atomic",
+    "particle",
+    "charm",
+    "zustand",
+    "store"
+  ],
+  "homepage": "https://github.com/dmitrykaigorodov/charm",
+
   "scripts": {
     "up": "bun upgrade ; bunx taze -a latest -w ; bun update --force ; bun run build ",
     "format": "bunx @biomejs/biome format --write ./src",
@@ -9,6 +28,7 @@
     "clean": "rm -Rf node_modules",
     "lint": "bunx @biomejs/biome lint ./src"
   },
+  
   "devDependencies": {
     "@types/bun": "latest"
   },
@@ -16,7 +36,7 @@
     "typescript": "^5.0.0"
   },
   "optionalDependencies": {
-    "react": "^18",
-    "@types/react": "^18.3.3"
+    "@types/react": ">=17.0.0",
+    "react": ">=17.0.0"
   }
 }
