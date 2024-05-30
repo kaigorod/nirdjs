@@ -47,8 +47,10 @@ export const charm = <Value>(
 	};
 	const notify = (nextValue: Value, prevValue: Value) => {
 		if (config?.ignoreWhen?.(nextValue, prevValue)) {
+			// console.log("notify skip ", { nextValue, prevValue })
 			return;
 		}
+		// console.log("notify fire ", { nextValue, prevValue })
 
 		if (batching === undefined) {
 			notifyNow(nextValue, prevValue);
