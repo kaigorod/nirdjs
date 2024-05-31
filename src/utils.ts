@@ -1,5 +1,4 @@
-import { charm, type Charm, type CharmConfig, type UpdateFn } from "./charm";
-import { derive } from "./derive";
+import { charm, type Charm, type UpdateFn } from "./charm";
 
 export const charmSetter = <Value>(charm: Charm<Value>) => {
   return (value: Value) => charm.set(value);
