@@ -1,42 +1,14 @@
 {
   "name": "@dkaigorodov/charmjs",
   "type": "module",
-  "license": "Apache-2.0",
-  "version": "0.1.14",
-  "author": "Dima Kaigorodov",
-  "keywords": [
-    "react",
-    "state",
-    "manager",
-    "management",
-    "recoil",
-    "jotai",
-    "atom",
-    "atomic",
-    "particle",
-    "charm",
-    "zustand",
-    "store"
-  ],
-  
-  "homepage": "https://github.com/dmitrykaigorodov/charm",
-    "repository": {
-    "type": "git",
-    "url": "https://github.com/dmitrykaigorodov/charm.git"
-  },
+  "version": "0.1.16",
 
   "source": "./index.ts",      
   "main": "dist/index.js",
-  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "exports": {
-    ".": "./dist/index.js",
-    "./index.d.ts": "./dist/index.d.ts",
-    "./package.json": "./package.json"
-  },
 
   "scripts": {
     "up": "bun upgrade ; bunx taze -a latest -w ; bun update --force ; bun run build ",
@@ -70,4 +42,28 @@
     "react": {
       "optional": true
     }
-  }}
+  },
+
+  "license": "Apache-2.0",
+  "author": "Dima Kaigorodov",
+  "keywords": [
+    "react",
+    "state",
+    "manager",
+    "management",
+    "recoil",
+    "jotai",
+    "atom",
+    "atomic",
+    "particle",
+    "charm",
+    "zustand",
+    "store"
+  ],
+  
+  "homepage": "https://github.com/dmitrykaigorodov/charm",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dmitrykaigorodov/charm.git"
+  }
+}
