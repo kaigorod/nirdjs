@@ -3,7 +3,7 @@
   "module": "index.ts",
   "type": "module",
   "license": "Apache-2.0",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "Dima Kaigorodov",
   "keywords": [
     "react",
@@ -31,6 +31,12 @@
   "files": [
     "dist"
   ],
+
+  "exports": {
+    ".": "./dist/index.js",
+    ".index.d.ts": "./dist/index.d.ts",
+    "./package.json": "./package.json"
+  },
 
   "scripts": {
     "up": "bun upgrade ; bunx taze -a latest -w ; bun update --force ; bun run build ",
