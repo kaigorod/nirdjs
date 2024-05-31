@@ -7,7 +7,7 @@ import { AsyncLocalStorage } from "node:async_hooks";
 const asyncLocalStorage = AsyncLocalStorage ? new AsyncLocalStorage<CharmStore>() : undefined as unknown as AsyncLocalStorage<CharmStore>;
 
 export const getStore = (): CharmStore => {
-  const store = asyncLocalStorage.getStore() || getDefaultStore();
+  const store = asyncLocalStorage?.getStore() || getDefaultStore();
   return store;
 }
 
