@@ -1,10 +1,11 @@
-import { expect, mock, test } from "bun:test";
+import { expect, test } from "bun:test";
+import { splitCharm } from "../arrays";
 import { charm } from "../charm";
-import { splitCharm } from "../arrayEltCharm";
 
 test("splitCharm", () => {
-	const arrayCharm = charm([10, 11, 12, 13, 14]);
-    const splitArrayCharm = splitCharm(arrayCharm);
+  const arrayCharm = charm([10, 11, 12, 13, 14]);
+  const splitArrayCharm = splitCharm(arrayCharm);
 
-	expect(splitArrayCharm.get().length).toBe(5);
+  expect(splitArrayCharm.get().length).toBe(5);
+
 });
