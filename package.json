@@ -1,9 +1,8 @@
 {
   "name": "@dkaigorodov/charmjs",
-  "module": "index.ts",
   "type": "module",
   "license": "Apache-2.0",
-  "version": "0.1.6",
+  "version": "0.1.10",
   "author": "Dima Kaigorodov",
   "keywords": [
     "react",
@@ -26,15 +25,16 @@
     "url": "https://github.com/dmitrykaigorodov/charm.git"
   },
 
+  "source": "./index.ts",      
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
-
   "exports": {
     ".": "./dist/index.js",
-    ".index.d.ts": "./dist/index.d.ts",
+    "./index.d.ts": "./dist/index.d.ts",
     "./package.json": "./package.json"
   },
 
@@ -55,7 +55,7 @@
     "bun-plugin-dts": "^0.2.3"
   },
   "peerDependencies": {
-  "typescript": "^5.0.0",
+    "typescript": "^5.0.0",
     "react": "^17 || ^18 || ^19",
     "@types/react": "^17 || ^18 || ^19",
     "react-dom": "^17 || ^18 || ^19",
