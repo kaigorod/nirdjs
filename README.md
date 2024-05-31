@@ -9,7 +9,7 @@ Charm is a state management library.
 const counterCharm = charm(0);
 
 export const useCounter = useCharm(counterCharm);
-export const inc = counterCharm.update(prev => prev + 1)
+export const inc = counterCharm.update(prev => prev + 1);
 
 
 // Counter.tsx
@@ -48,7 +48,7 @@ const WordAndLetters = () => {
 
   return <>
     <p>
-      <input onChange={setWord}/>
+      <input onChange={e => setWord(e.target.value)}/>
     </p>
     <p>
       Word "{word}" contains {letters} letters.
@@ -61,7 +61,7 @@ const WordAndLetters = () => {
 ## Split array atoms
 
 
-```ts
+```jsx
 import { expect, mock, test } from "bun:test";
 import { splitCharm } from "../src/arrays";
 import { charm, type Charm } from "../src/charm";
@@ -121,7 +121,6 @@ test("render two pages at the same time", () => {
     aCharm.set(20);
     return renderToString(comp)
   })
-  console.log("==========")
 
   expect(page1).toEqual("<button>10</button>")
   expect(page2).toEqual("<button>20</button>")
