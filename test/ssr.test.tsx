@@ -32,5 +32,8 @@ test("render two pages at the same time", () => {
   expect(page2).toEqual("<button>20</button>")
 });
 
+// FIXME test disableDefaultStore
+// FIXME test with async
+
 
 
