@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getStore } from "./ssr/AsyncLocalStorageCharmProvider";
+import { getStore } from "./store";
 
 export type Subscriber<Value> = (nextValue: Value, prevValue: Value) => void;
 
@@ -19,7 +19,7 @@ export type CharmConfig<Value> = {
   debugLabel?: string;
 };
 
-export const isIdentical = <Value>(a: Value, b: Value) =>
+export const isIdentical = <Value>(a: Value, b: Value): boolean =>
   a === b || (Number.isNaN(a) && Number.isNaN(b));
 export const neverIgnore = undefined;
 
@@ -37,10 +37,20 @@ const setStoreCharmValue = <Value>(charm: Charm<Value>, value: Value) => {
   return getStore().charm2value.set(charm.id(), value);
 }
 
+export type Charm<Value> = {
+  id: () => number,
+  get: () => Value,
+  set: (value: Value) => void,
+  update: (updateFn: UpdateFn<Value>) => void,
+  sub: (subscriber: Subscriber<Value>) => void,
+  unsub: (subscriber: Subscriber<Value>) => void,
+  toString: () => string
+}
+
 export const charm = <Value>(
   initialValue: Value,
   charmConfig?: CharmConfig<Value>,
-) => {
+): Charm<Value> => {
   // let currentValue: Value = initialValue;
   const subscribers = new Set<Subscriber<Value>>();
   const charmId = charmCounter++;
@@ -71,12 +81,12 @@ export const charm = <Value>(
     });
   };
 
-  const charm = {
+  const charm: Charm<Value> = {
     id() {
       return charmId;
     },
     get(): Value {
-      return getStoreCharmValue(this);
+      return getStoreCharmValue<Value>(this);
     },
     set(nextValue: Value) {
       if (!config.allowFnValue && typeof nextValue === "function") {
@@ -114,7 +124,6 @@ export const charm = <Value>(
   return charm;
 };
 
-export type Charm<Value> = ReturnType<typeof charm<Value>>;
 
 export const useCharmValue = <Value>(charm: Charm<Value>): Value => {
   const [value, setValue] = useState(charm.get());
@@ -133,7 +142,7 @@ export const useCharmValue = <Value>(charm: Charm<Value>): Value => {
   return value;
 };
 
-export const batch = async (fn: () => void) => {
+export const batch = async (fn: () => void): Promise<void> => {
   if (batching) {
     throw new Error("Another batching is already in the progress");
   }

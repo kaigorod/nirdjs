@@ -1,7 +1,7 @@
 
 let storeSeq = 0;
 
-const createCharmStoreClosure = (storeSeq: number) => {
+const createCharmStoreClosure = (storeSeq: number): CharmStore => {
   return {
     getStoreId() {
       return storeSeq;
@@ -10,9 +10,12 @@ const createCharmStoreClosure = (storeSeq: number) => {
   }
 }
 
-export type CharmStore = ReturnType<typeof createCharmStoreClosure>;
+export type CharmStore = {
+  getStoreId: () => number,
+  charm2value: Map<number, unknown>
+};
 
-export const createCharmStore = () => {
+export const createCharmStore = (): CharmStore => {
   return createCharmStoreClosure(storeSeq++);
 }
 
@@ -30,6 +33,16 @@ export const getDefaultStore = (): CharmStore => {
  * Use this in Server-Side-Rendering environment to catch situations 
  * when CharmProvider is missing
  */
-export const disableDefaultStore = () => {
+export const disableDefaultStore = (): void => {
   defaultStore = undefined
+}
+
+let storeProvider = (): CharmStore => defaultStore as CharmStore;
+
+export const getStore = (): CharmStore => {
+  return storeProvider()
+}
+
+export const setStoreProvide = (storeProviderParam: () => CharmStore): void => {
+  storeProvider = storeProviderParam;
 }

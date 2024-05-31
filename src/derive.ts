@@ -10,7 +10,7 @@ export const derive = <SourceValue, DerivedValue>(
   deriveFromSource: GetFromSourceFn<SourceValue, DerivedValue>,
   propagateToSource: SetToSourceFn<SourceValue, DerivedValue>,
   charmConfig?: CharmConfig<DerivedValue>,
-) => {
+): Charm<DerivedValue> => {
   const innerCharm = charm(deriveFromSource(source.get()), charmConfig);
   source.sub((nextSourceValue: SourceValue) => {
     innerCharm.set(deriveFromSource(nextSourceValue));

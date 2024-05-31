@@ -7,7 +7,7 @@ export const propertyCharm = <
     sourceCharm: Charm<Value>,
     propName: prop,
     config?: CharmConfig<Value[prop]>,
-  ) => {
+  ): Charm<Value[prop]> => {
   return derive<Value, Value[prop]>(
     sourceCharm,
     (sourceValue: Value) => sourceValue[propName],

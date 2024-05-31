@@ -1,12 +1,13 @@
-import { type Charm, type UpdateFn } from "./charm";
+import { type Charm } from "./charm";
 
-export const charmSetter = <Value>(charm: Charm<Value>) => {
+export type CharmSetter<Value> = (value: Value) => void;
+
+export const charmSetter = <Value>(charm: Charm<Value>): CharmSetter<Value> => {
   return (value: Value) => charm.set(value);
 };
-export const charmUpdater = <Value>(charm: Charm<Value>) => {
-  return (updateFn: UpdateFn<Value>) => charm.update(updateFn);
-};
-export const charmGetter = <Value>(charm: Charm<Value>) => {
+
+export type CharmGetter<Value> = () => Value;
+export const charmGetter = <Value>(charm: Charm<Value>): CharmGetter<Value> => {
   return () => charm.get();
 };
 

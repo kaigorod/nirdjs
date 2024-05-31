@@ -1,14 +1,14 @@
 import { Fragment, createElement, type FunctionComponentElement, type ReactNode } from "react";
-import { createCharmStore, getDefaultStore, type CharmStore } from "../store";
+import { createCharmStore, type CharmStore } from "../store";
 
 import { AsyncLocalStorage } from "node:async_hooks";
 
 
 const asyncLocalStorage = AsyncLocalStorage ? new AsyncLocalStorage<CharmStore>() : undefined as unknown as AsyncLocalStorage<CharmStore>;
 
-export const getStore = (): CharmStore => {
-  const store = asyncLocalStorage?.getStore() || getDefaultStore();
-  return store;
+export const asyncLocalStorageStoreProvider = (): CharmStore => {
+  const store = asyncLocalStorage?.getStore();
+  return store as CharmStore;
 }
 
 export const execWithCharm = (store: CharmStore, fn: any) => {

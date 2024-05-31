@@ -6,7 +6,7 @@ export const arrayEltCharm = <Value>(
   source: Charm<Array<Value>>,
   index: number,
   config?: CharmConfig<Value>,
-) => {
+): Charm<Value> => {
   return derive<Array<Value>, Value>(
     source,
     (value: Array<Value>) => value[index],
