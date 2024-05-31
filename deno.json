@@ -1,6 +1,7 @@
 {
   "name": "@kaigorod/charm",
-  "version": "0.1.19",
+  "version": "0.1.20",
+  "description": "Atomic state management library for React",
   "exports": "./src/index.ts",
   "publish": {
     "include": [
@@ -16,5 +17,9 @@
   "imports": {
     "react": "npm:react@^18.3.1",
     "react-dom": "npm:react-dom@^18.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmitrykaigorodov/charm.git"
   }
 }

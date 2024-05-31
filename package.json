@@ -64,6 +64,6 @@
   "homepage": "https://github.com/dmitrykaigorodov/charm",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dmitrykaigorodov/charm.git"
+    "url": "git+https://github.com/dmitrykaigorodov/charm.git"
   }
 }
