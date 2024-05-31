@@ -1,4 +1,4 @@
-import { charm, type Charm, type UpdateFn } from "./charm";
+import { type Charm, type UpdateFn } from "./charm";
 
 export const charmSetter = <Value>(charm: Charm<Value>) => {
   return (value: Value) => charm.set(value);
@@ -18,26 +18,26 @@ export type SetToSourceFn<SourceValue, DerivedValue> = (
   prevSourceValue: SourceValue,
 ) => SourceValue;
 
-export const debouncedCharm = <Value>(
-  sourceCharm: Charm<Value>,
-  delay: number,
-) => {
-  let timeoutId: ReturnType<typeof setTimeout> | undefined = undefined;
-  let latestValue: Value = sourceCharm.get();
-  const superCharm = charm(sourceCharm.get());
+// export const debouncedCharm = <Value>(
+//   sourceCharm: Charm<Value>,
+//   delay: number,
+// ) => {
+//   let timeoutId: ReturnType<typeof setTimeout> | undefined = undefined;
+//   // let latestValue: Value = sourceCharm.get();
+//   const superCharm = charm(sourceCharm.get());
 
-  return {
-    ...superCharm,
-    set(nextValue: Value) {
-      if (timeoutId !== undefined) {
-        clearTimeout(timeoutId);
-        timeoutId = undefined;
-      }
-      timeoutId = setTimeout(() => {
-        superCharm.set(nextValue);
-        latestValue = nextValue;
-        timeoutId = undefined;
-      }, delay);
-    },
-  };
-};
+//   return {
+//     ...superCharm,
+//     set(nextValue: Value) {
+//       if (timeoutId !== undefined) {
+//         clearTimeout(timeoutId);
+//         timeoutId = undefined;
+//       }
+//       timeoutId = setTimeout(() => {
+//         superCharm.set(nextValue);
+//         // latestValue = nextValue;
+//         timeoutId = undefined;
+//       }, delay);
+//     },
+//   };
+// };

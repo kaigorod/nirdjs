@@ -7,7 +7,7 @@ export const useCharm = <Value>(charm: Charm<Value>) => {
   useEffect(() => {
     const subscriber: Subscriber<Value> = (
       nextValue: Value,
-      prevValue: Value,
+      _prevValue: Value,
     ) => {
       setValue(nextValue);
     };

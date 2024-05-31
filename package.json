@@ -1,9 +1,9 @@
 {
-  "name": "charm",
+  "name": "@dkaigorodov/charmjs",
   "module": "index.ts",
   "type": "module",
   "license": "Apache-2.0",
-  "version": "0.1",
+  "version": "0.1.2",
   "author": "Dima Kaigorodov",
   "keywords": [
     "react",
@@ -20,18 +20,24 @@
     "store"
   ],
   "homepage": "https://github.com/dmitrykaigorodov/charm",
+  "main": "dist/index.js",
+  "types": "index.d.ts",
   "scripts": {
     "up": "bun upgrade ; bunx taze -a latest -w ; bun update --force ; bun run build ",
     "format": "bunx @biomejs/biome format --write ./src",
     "test": "bun test --watch",
     "clean": "rm -Rf node_modules",
-    "lint": "bunx @biomejs/biome lint ./src"
+    "prepublish": "tsc",
+    "publish": "",
+    "lint": "bunx @biomejs/biome lint ./src",
+    "build": "bun run scripts/build.ts"
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "^14.12.0",
     "@types/bun": "^1.1.3",
     "@types/react-dom": "^latest",
     "biome": "^0.3.3",
+    "bun-plugin-dts": "^0.2.3",
     "react": "next",
     "react-dom": "^19.0.0-rc-9d4fba0788-20240530"
   },

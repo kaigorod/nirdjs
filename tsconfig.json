@@ -22,6 +22,10 @@
     // Some stricter flags
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noPropertyAccessFromIndexSignature": true
+    "noPropertyAccessFromIndexSignature": true,
+
+    // OVERRIDES
+    "outDir": "./dist",
+    "declaration": true
   }
 }
