@@ -1,5 +1,5 @@
-import { replaceArrayElt } from "../langUtils";
 import { expect, test } from "bun:test";
+import { replaceArrayElt } from "../src/langUtils";
 
 test("replaceEltArray", () => {
   const arr = [1, 2, 3, 4, 5];

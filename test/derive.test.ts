@@ -1,13 +1,13 @@
 import { expect, mock, test } from "bun:test";
-import { charm } from "../charm";
-import { NeverSet, derive } from "../derive";
+import { charm } from "../src/charm";
+import { NeverSet, derive } from "../src/derive";
 
 type A = { a: number };
 
 test("when sources updates then derived updates", () => {
   const sourceCharm = charm({ a: 1 });
   const derivedCharm = derive(sourceCharm, ({ a }) => a, NeverSet);
-  const derivedSubscriber = (_nextValue: number, _prevValue: number) => {};
+  const derivedSubscriber = (_nextValue: number, _prevValue: number) => { };
   const mockFn = mock(derivedSubscriber);
   expect(derivedCharm.get()).toBe(1);
   derivedCharm.sub(mockFn);
@@ -25,7 +25,7 @@ test("derive", () => {
   const beCharm = derive(aCharm, ({ a }) => a, NeverSet);
   const seeCharm = derive(beCharm, (a) => a.length, NeverSet);
 
-  const derivedSubscriber = (_nextValue: number, _prevValue: number) => {};
+  const derivedSubscriber = (_nextValue: number, _prevValue: number) => { };
   const mockFn = mock(derivedSubscriber);
   expect(seeCharm.get()).toBe(11);
   seeCharm.sub(mockFn);

@@ -1,6 +1,6 @@
 import { test } from "bun:test";
-import { CharmProvider } from "../CharmProvider";
-import { charm, useCharmValue } from "../charm";
+import { charm, useCharmValue } from "../src/charm";
+import { NodeJsCharmProvider } from "../src/ssr/AsyncLocalStorageCharmProvider";
 
 const aCharm = charm(1);
 
@@ -14,8 +14,8 @@ const Comp = ({ }) => {
 
 test("render two pages at the same time", () => {
 
-  const page1 = <CharmProvider><Comp /><CharmProvider>;
-    const page2 = <CharmProvider><Comp /><CharmProvider>;
+  const page1 = <NodeJsCharmProvider><Comp /><NodeJsCharmProvider>;
+    const page2 = <NodeJsCharmProvider><Comp /><NodeJsCharmProvider>;
 
 
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getStore } from "./ssr/AsyncLocalStorageCharmProvider";
 
 export type Subscriber<Value> = (nextValue: Value, prevValue: Value) => void;
 
@@ -28,11 +29,19 @@ export const defaultConfig = {
   allowFnValue: false,
 };
 
+const getStoreCharmValue = <Value>(charm: Charm<Value>): Value => {
+  return getStore().charm2value.get(charm.id()) as Value
+}
+
+const setStoreCharmValue = <Value>(charm: Charm<Value>, value: Value) => {
+  return getStore().charm2value.set(charm.id(), value);
+}
+
 export const charm = <Value>(
   initialValue: Value,
   charmConfig?: CharmConfig<Value>,
 ) => {
-  let currentValue: Value = initialValue;
+  // let currentValue: Value = initialValue;
   const subscribers = new Set<Subscriber<Value>>();
   const charmId = charmCounter++;
 
@@ -62,24 +71,26 @@ export const charm = <Value>(
     });
   };
 
-  return {
+  const charm = {
+    id() {
+      return charmId;
+    },
     get(): Value {
-      return currentValue;
+      return getStoreCharmValue(this);
     },
     set(nextValue: Value) {
       if (!config.allowFnValue && typeof nextValue === "function") {
         console.trace("charm set fn", config.debugLabel, nextValue);
         return;
       }
-      const prevValue = currentValue;
-      currentValue = nextValue;
+      const prevValue = this.get();
+      setStoreCharmValue(this, nextValue);
       notify(nextValue, prevValue);
     },
     update(setterFn: UpdateFn<Value>) {
-      const prevValue = currentValue;
-      const nextValue = setterFn(currentValue);
-      currentValue = nextValue;
-      notify(nextValue, prevValue);
+      const prevValue = this.get();
+      const nextValue = setterFn(prevValue);
+      this.set(nextValue);
     },
     sub(subscriber: Subscriber<Value>) {
       if (!subscriber || typeof subscriber !== "function") {
@@ -94,9 +105,11 @@ export const charm = <Value>(
       subscribers.delete(subscriber);
     },
     toString() {
-      return `${config.debugLabel}:${charmId}: [${currentValue}]`;
+      return `${config.debugLabel}:${charmId}: [${this.get()}]`;
     },
   };
+
+  return charm;
 };
 
 export type Charm<Value> = ReturnType<typeof charm<Value>>;

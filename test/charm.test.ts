@@ -1,5 +1,5 @@
 import { expect, mock, test } from "bun:test";
-import { batch, charm } from "../charm";
+import { batch, charm } from "../src/charm";
 
 test("get", () => {
   const numCharm = charm(2);
@@ -31,7 +31,7 @@ test("set two times", () => {
 
 test("sub", () => {
   const numCharm = charm(2);
-  const fn = (_nextValue: number, _prevValue: number) => {};
+  const fn = (_nextValue: number, _prevValue: number) => { };
   const mockFn = mock(fn);
   numCharm.sub(mockFn);
   numCharm.set(3);

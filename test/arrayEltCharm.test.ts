@@ -1,15 +1,15 @@
 import { expect, mock, test } from "bun:test";
-import { propertyCharm } from "../propertyCharm";
-import { charm } from "../charm";
+import { arrayEltCharm } from "../src/arrays";
+import { charm } from "../src/charm";
 
-test("propertyCharm", () => {
-  const sourceCharm = charm({ a: 1, b: 2 });
-  const elt0 = propertyCharm(sourceCharm, "a");
-  const elt1 = propertyCharm(sourceCharm, "b");
+test("arrayEltCharm", () => {
+  const arrayCharm = charm([1, 2]);
+  const elt0 = arrayEltCharm(arrayCharm, 0);
+  const elt1 = arrayEltCharm(arrayCharm, 1);
 
   expect(elt0.get()).toBe(1);
 
-  const fn0 = (_nextValue: number, _prevValue: number) => {};
+  const fn0 = (_nextValue: number, _prevValue: number) => { };
   const fn1 = (_nextValue: number, _prevValue: number) => {
     throw new Error();
   };
@@ -18,10 +18,11 @@ test("propertyCharm", () => {
   elt0.sub(mockFn0);
   elt1.sub(mockFn1);
 
-  sourceCharm.update((prev) => ({
-    ...prev,
-    a: 3,
-  }));
+  arrayCharm.update((prev) => {
+    const next = [...prev];
+    next[0] = 3;
+    return next;
+  });
   expect(elt0.get()).toBe(3);
   expect(elt1.get()).toBe(2);
 
