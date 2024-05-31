@@ -109,6 +109,8 @@ export const charm = <Value>(
     },
   };
 
+  charm.set(initialValue);
+
   return charm;
 };
 

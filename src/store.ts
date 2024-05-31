@@ -21,7 +21,7 @@ let defaultStore: undefined | CharmStore = createCharmStore();
 
 export const getDefaultStore = (): CharmStore => {
   if (defaultStore === undefined) {
-    throw new Error('disableDefaultStore has been called. Use CharmProvider or execWithCharm')
+    throw new Error('default store was disable before. Use CharmProvider or execWithCharm')
   }
   return defaultStore;
 }
