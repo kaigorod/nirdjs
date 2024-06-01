@@ -43,6 +43,6 @@ export const getStore = (): CharmStore => {
   return storeProvider()
 }
 
-export const setStoreProvide = (storeProviderParam: () => CharmStore): void => {
+export const setStoreProvider = (storeProviderParam: () => CharmStore): void => {
   storeProvider = storeProviderParam;
 }

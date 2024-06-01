@@ -1,7 +1,7 @@
 {
   "name": "@dkaigorodov/charmjs",
   "type": "module",
-  "version": "0.1.21",
+  "version": "0.1.22",
 
   "source": "./index.ts",      
   "main": "dist/index.js",
@@ -15,7 +15,6 @@
     "format": "bunx @biomejs/biome format --write ./src",
     "test": "bun test --watch",
     "clean": "rm -Rf node_modules",
-    "prepublish": "tsc",
     "publish": "",
     "lint": "bunx @biomejs/biome lint ./src",
     "build": "bun run scripts/build.ts"
@@ -24,23 +23,15 @@
     "@happy-dom/global-registrator": "^14.12.0",
     "@types/bun": "^1.1.3",
     "biome": "^0.3.3",
-    "bun-plugin-dts": "^0.2.3",
-    "react-dom": ">=18.0.0",
-    "@types/react-dom": ">=17"
+    "bun-plugin-dts": "^0.2.3"
   },
   "dependencies": {
-        "react": ">=18.0.0"
-  },
-  "peerDependencies": {
+    "react": "^18.3.1",
     "@types/react": ">=17.0.0"
   },
-  "peerDependenciesMeta": {
-    "@types/react": {
-      "optional": true
-    },
-    "react": {
-      "optional": true
-    }
+  "peerDependencies": {
+    "react-dom": ">=18.0.0",
+    "@types/react-dom": ">=17"
   },
 
   "license": "Apache-2.0",

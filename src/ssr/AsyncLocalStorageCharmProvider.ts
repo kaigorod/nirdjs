@@ -31,6 +31,5 @@ export const AsyncLocalStorageCharmProvider = ({
       children,
     )
   }) as unknown as FunctionComponentElement<{}>
-
 }
 

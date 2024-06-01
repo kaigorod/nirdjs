@@ -9,7 +9,7 @@ test("when sources updates then derived updates", () => {
   const derivedCharm = derive<A, string>(sourceCharm, ({ a }: A) => a, NeverSet);
   const derivedSubscriber = (_nextValue: string, _prevValue: string) => { };
   const mockFn = mock(derivedSubscriber);
-  expect(derivedCharm.get()).toBe("test");
+  expect(derivedCharm.get()).toBe("1");
   derivedCharm.sub(mockFn);
   sourceCharm.set({ a: "2" });
 
