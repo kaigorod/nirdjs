@@ -128,9 +128,44 @@ test("render two pages at the same time", () => {
 
 ```
 
+# Install
+
+```sh
+
+npx jsr add @kaigorod/charm
+
+# or
+
+bunx jsr add @kaigorod/charm
+
+```
+
+This command will add the following line to your `package.json` file
+
+```json
+{
+  //in package.json, 
+  "@kaigorod/charm": "npm:@jsr/kaigorod__charm",
+}
+```
+
+
+```
+import { charm, charmGetter, charmSetter, useCharmValue } from "@kaigorod/charm";
+
+const isImageSearchOnCharm = charm(false);
+
+export const useIsImageSearchOn = () => useCharmValue(isImageSearchOnCharm);
+export const setIsImageSearchOn = charmSetter(isImageSearchOnCharm);
+```
+
+
 
 
 # Inspiration
 Charm is inspired by recoil and jotai state management libraries.
 
-https://github.com/dmitrykaigorodov/charm
+# Links
+
+- Github Repo https://github.com/dmitrykaigorodov/charm
+- Deno Package https://jsr.io/@kaigorod/charm
