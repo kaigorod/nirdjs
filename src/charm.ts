@@ -7,16 +7,17 @@ let charmCounter = 0;
 
 /**
  * Updater function. get @param @prev previous @param Value and return next value
- * @see Charm.update
+ * @see {@link Charm.update}
  */
 export type UpdateFn<Value> = (prev: Value) => Value;
 
 
 /**
- * Callback function to skip notification of subscriber when @see Charm value has not actually changed.
- * Should return `true` to skip notification, just as `===`
- * @see Charm.update
- * @see Charm.sub
+ * Callback function to skip notification of subscriber when @see {@link Charm} value has not actually changed.
+ * Should return `true` to skip notification, just as `===`.
+ * 
+ * @see {@link Charm.update}
+ * @see {@link Charm.sub}
  */
 export type IgnoreWhenFn<Value> = (
   prevValue: Value,
@@ -34,7 +35,7 @@ export type CharmConfig<Value> = {
    * charm will not notify subscriber about the change.
    * This way you can avoid unnecessary recalculations and re-render of the UI.
    * 
-   * defaults to @see isIdentical.
+   * defaults to @see {@link isIdentical}.
    * For better performance, when your state is not weird, provide with deepEquals implementation.
    */
   ignoreWhen?: IgnoreWhenFn<Value>;
@@ -55,17 +56,20 @@ export const isIdentical = <Value>(a: Value, b: Value): boolean =>
   a === b || (Number.isNaN(a) && Number.isNaN(b));
 
 /**
- * Can be used as @see CharmConfig.ignoreWhen value. 
+ * Can be used as @see {@link CharmConfig.ignoreWhen} value. 
  * Will cause charm to always notify subscriber even when the value has not bee not changed.
  */
 export const neverIgnore = undefined;
 
 /**
- * Used when no @see charm() config is provided
+ * Used when no @see {@link charm()} config is provided
  */
 export const defaultConfig = {
-  /** @see isIdentical */
+  /** 
+   * @see {@link isIdentical} 
+   */
   ignoreWhen: isIdentical,
+
   /** using "charm" as default */
   debugLabel: "charm",
   /** 
@@ -84,7 +88,7 @@ const setStoreCharmValue = <Value>(charm: Charm<Value>, value: Value) => {
 }
 
 /**
- * Charm type. Hold a specific value in a @see Store
+ * Charm type. Hold a specific value in a @see {@link Store}
  */
 export type Charm<Value> = {
   /**

@@ -14,7 +14,7 @@ export const charmGetter = <Value>(charm: Charm<Value>): CharmGetter<Value> => {
 /**
  * Extracts @param value of source charm to the value of derived charm
  * 
- * @see propertyCharm and @see arrayEltCharm for usage examples.
+ * @see {@link } and @see {@link arrayEltCharm} for usage examples.
  */
 export type GetFromSourceFn<SourceValue, DerivedValue> = (
   value: SourceValue,
@@ -22,12 +22,12 @@ export type GetFromSourceFn<SourceValue, DerivedValue> = (
 
 /**
  * 
- * @return next Value of source based on 
  * next value of derived charm @param nextDerivedValue
  * and previous value of source charm @param prevSourceValue.
- * When creating read-only derived charms then use @see NeverSet.
+ * When creating read-only derived charms then use @see {@link NeverSet}.
  * When derived charm is not read-only then setting derived charm 
  * will also update the sourceCharm
+ * @return next Value of source based on 
  */
 export type SetToSourceFn<SourceValue, DerivedValue> = (
   nextDerivedValue: DerivedValue,

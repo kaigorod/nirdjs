@@ -15,8 +15,8 @@ export const NeverSet = <Value>(_value: Value): never => {
  * Creates derived charm particle based on @param sourceCharm particle
  * 
  * @param sourceCharm source charm to derive from
- * @param deriveFromSource @see GetFromSourceFn
- * @param propagateToSource @see SetToSourceFn, when creating read-only derived charms then use @see NeverSet 
+ * @param deriveFromSource @see {@link GetFromSourceFn}
+ * @param propagateToSource @see {@link SetToSourceFn}, when creating read-only derived charms then use @see {@link NeverSet} 
  * @param charmConfig 
  * 
  * @returns new Charm which is subscribed to @param @source charm

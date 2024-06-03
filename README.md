@@ -2,6 +2,7 @@
 
 Charm is an atomic state management library for React.
 
+Latest documentation is available at https://jsr.io/@kaigorod/charm/doc
 
 ```jsx
 
@@ -98,7 +99,7 @@ No orbitrary code is able to modify the state of your atoms.
 
 When you refactor you code or fixing a bug then you are certain you have only single place to make change to or review.
 
-### Compounding interactions
+### Composing interactions
 
 Quite often you need to perform multiple state changes per single use action. 
 For example, when a user creates a new slide then they expect that:
@@ -121,7 +122,7 @@ const createNewSlideAfterCurrentSlide = () => {
 
 ```
 
-### Self-documenting
+### Self-documenting functions
 
 A javascript function declaration is a great descriptor of the action it performs. 
 And it is obvious and familiar documentation of how to use it. 
@@ -280,7 +281,11 @@ npx jsr add @kaigorod/charm
 
 # or
 
-bunx jsr add @kaigorod/charm
+bunx 
+
+# or
+
+deno add @kaigorod/charm
 
 ```
 

@@ -2,6 +2,15 @@ import type { Charm, CharmConfig, UpdateFn } from "./charm";
 import { NeverSet, derive } from "./derive";
 import { replaceArrayElt } from "./langUtils";
 
+/**
+ * Creates charm of single element of an array.
+ * @see {@link splitCharm} returns an charm array
+ * 
+ * @param source Charm which holds array
+ * @param index of an element
+ * @param config optional @see {@link CharmConfig}
+ * @returns new Charm linked to element of arrary by index.
+ */
 export const arrayEltCharm = <Value>(
   source: Charm<Array<Value>>,
   index: number,
@@ -19,14 +28,28 @@ export const arrayEltCharm = <Value>(
   );
 };
 
+/**
+ * Utility function to update a single element of an array.
+ * 
+ * @param arrayCharm charm which holds array
+ * @param index Index of element to update
+ * @param updateFn Update function 
+ */
 export const updateElt = <Value>(
-  charm: Charm<Array<Value>>,
+  arrayCharm: Charm<Array<Value>>,
   index: number,
   updateFn: UpdateFn<Value>,
 ): void => {
-  charm.update((array) => replaceArrayElt(array, index, updateFn(array[index])));
+  arrayCharm.update((array) => replaceArrayElt(array, index, updateFn(array[index])));
 };
 
+/**
+ * 
+ * @param source 
+ * @param itemsConfig 
+ * @param containerConfig 
+ * @returns 
+ */
 export const splitCharm = <Value>(
   source: Charm<Array<Value>>,
   itemsConfig?: CharmConfig<Value>,
