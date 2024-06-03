@@ -1,6 +1,4 @@
-# What is Charm
-
-Charm is an atomic state management library for React.
+# State Management Best Practices
 
 
 ```jsx
@@ -24,8 +22,6 @@ const Counter = () => {
 
 ```
 
-# State management best practices
-
 ## Atoms stay protected
 
 Notice that `counterCharm` is not exported directly. 
@@ -42,7 +38,7 @@ First, it returns the value of the current value of the counter.
 Second, as any React hook, it subscribes the component to changes of the counter. 
 So, when a counter changes then the components re-renders. 
 
-## Avoid setter callback hooks
+## No setter function hook
 
 Notice, where is no `setCounter` function returned by the useCharm hook. 
 One of the distiguishing feature of Charm is that your Component doesn't 
@@ -107,7 +103,7 @@ For example, when a user creates a new slide then they expect that:
 
 The code to perform these two actions together is actuall, a very simple and familiar function composition:
 
-```jsx
+```ts
 // file: slide-commands.ts
 
 import { createNewEmptyAfterCurrentSlide } from "@state/slideList"
@@ -169,147 +165,8 @@ This way, all the UI-complications don't get mixed up with the business logic.
 For even larger projects it might make sense to move state actions of a specific business domain to a dedicated workspace package.
 
 
-# Derived particles
-
-```jsx
-
-// word.ts 
-
-const wordCharm = charm("compatibility");
-const lettersCharm = derivedCharm(wordCharm, (word) => word.length, NeverSet)
-
-export const useWord = useCharm(wordCharm);
-export const setWord = charmSetter(wordCharm)
-
-export const useLetters = useCharm(lettersCharm);
-
-
-// Counter.tsx
-
-const WordAndLetters = () => {
-  const word = useWord();
-  const letters = useLetters();
-
-  return <>
-    <p>
-      <input onChange={e => setWord(e.target.value)}/>
-    </p>
-    <p>
-      Word "{word}" contains {letters} letters.
-    </p>
-  </>    
-}
-
-```
-
-## Split array atoms
-
-
-```jsx
-import { expect, mock, test } from "bun:test";
-import { splitCharm } from "../src/arrays";
-import { charm, type Charm } from "../src/charm";
-
-test("charmList does not change when single value changes", () => {
-  const arrayCharm = charm([10, 20]);
-  const splitArrayCharm = splitCharm(arrayCharm);
-
-  const charm0: Charm<number> = splitArrayCharm.get()[0];
-  const charm1: Charm<number> = splitArrayCharm.get()[1];
-
-  const nopFn = () => { }
-  const subCharmMock = mock(nopFn as any)
-  const sub0 = mock(nopFn as any)
-  const sub1 = mock(nopFn as any)
-
-  /// test
-
-
-  splitArrayCharm.sub(subCharmMock)
-  charm0.sub(sub0);
-  charm1.sub(sub1);
-
-  charm0.set(0);
-
-  expect(sub0).toHaveBeenCalledTimes(1);
-
-  expect(sub1).toHaveBeenCalledTimes(0);
-
-  expect(subCharmMock).toHaveBeenCalledTimes(0);
-});
-
-```
-
-# Using Provider for SSR
-
-```jsx
-
-const aCharm = charm(1);
-
-const Comp = ({}) => {
-  const value = useCharm(aCharm)
-  return <button>
-    {value}
-  </button>
-}
-
-
-test("render two pages at the same time", () => {
-  const page1 = execWithCharm(createCharmStore(), () => {
-    const comp = <Comp />
-    aCharm.set(10);
-    return renderToString(comp)
-  })
-  const page2 = execWithCharm(createCharmStore(), () => {
-    const comp = <Comp />
-    aCharm.set(20);
-    return renderToString(comp)
-  })
-
-  expect(page1).toEqual("<button>10</button>")
-  expect(page2).toEqual("<button>20</button>")
-});
-
-```
-
-# Install
-
-```sh
-
-npx jsr add @kaigorod/charm
-
-# or
-
-bunx jsr add @kaigorod/charm
-
-```
-
-This command will add the following line to your `package.json` file
-
-```json
-{
-  //in package.json, 
-  "@kaigorod/charm": "npm:@jsr/kaigorod__charm",
-}
-```
-
-
-```
-import { charm, charmGetter, charmSetter, useCharm } from "@kaigorod/charm";
-
-const isImageSearchOnCharm = charm(false);
-
-export const useIsImageSearchOn = () => useCharm(isImageSearchOnCharm);
-export const setIsImageSearchOn = charmSetter(isImageSearchOnCharm);
-```
 
 
 
 
-# Inspiration
-Charm is inspired by recoil and jotai state management libraries.
 
-# Links
-
-- Github Repo https://github.com/dmitrykaigorodov/charm
-- Deno Package https://jsr.io/@kaigorod/charm

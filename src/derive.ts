@@ -1,18 +1,34 @@
 import { charm, type Charm, type CharmConfig } from "./charm";
 import type { GetFromSourceFn, SetToSourceFn } from "./utils";
 
-export const NeverSet = <DerivedValue>(_value: DerivedValue): never => {
+/**
+ * Use it as a setter function for read-only charms.
+ * @param _value 
+ * @returns never for better typescript developer experience
+ * @throws Error when called
+ */
+export const NeverSet = <Value>(_value: Value): never => {
   throw new Error("This charm is read-only");
 };
 
+/**
+ * Creates derived charm particle based on @param sourceCharm particle
+ * 
+ * @param sourceCharm source charm to derive from
+ * @param deriveFromSource @see GetFromSourceFn
+ * @param propagateToSource @see SetToSourceFn, when creating read-only derived charms then use @see NeverSet 
+ * @param charmConfig 
+ * 
+ * @returns new Charm which is subscribed to @param @source charm
+ */
 export const derive = <SourceValue, DerivedValue>(
-  source: Charm<SourceValue>,
+  sourceCharm: Charm<SourceValue>,
   deriveFromSource: GetFromSourceFn<SourceValue, DerivedValue>,
   propagateToSource: SetToSourceFn<SourceValue, DerivedValue>,
   charmConfig?: CharmConfig<DerivedValue>,
 ): Charm<DerivedValue> => {
-  const innerCharm = charm(deriveFromSource(source.get()), charmConfig);
-  source.sub((nextSourceValue: SourceValue) => {
+  const innerCharm = charm(deriveFromSource(sourceCharm.get()), charmConfig);
+  sourceCharm.sub((nextSourceValue: SourceValue) => {
     innerCharm.set(deriveFromSource(nextSourceValue));
   });
 
@@ -22,9 +38,9 @@ export const derive = <SourceValue, DerivedValue>(
       return innerCharm.get();
     },
     set(nextValue: DerivedValue) {
-      const nextSourceValue = propagateToSource(nextValue, source.get());
+      const nextSourceValue = propagateToSource(nextValue, sourceCharm.get());
       innerCharm.set(nextValue);
-      source.set(nextSourceValue);
+      sourceCharm.set(nextSourceValue);
     },
   };
 };
