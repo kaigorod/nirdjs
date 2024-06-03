@@ -1,6 +1,6 @@
 {
   "name": "@kaigorod/charm",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "description": "Atomic state management library for React",
   "exports": "./src/index.ts",
   "publish": {
