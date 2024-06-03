@@ -316,5 +316,5 @@ Charm is inspired by recoil and jotai state management libraries.
 
 # Links
 
-- Github Repo https://github.com/dmitrykaigorodov/charm
+- Github Repo https://github.com/kaigorod/charm
 - Deno Package https://jsr.io/@kaigorod/charm

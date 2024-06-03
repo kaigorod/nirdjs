@@ -15,7 +15,7 @@ https://bun.sh/docs/cli/test
 ```
 
 ## Create pull request
-https://github.com/dmitrykaigorodov/charm/pulls
+https://github.com/kaigorod/charm/pulls
 
 
 
