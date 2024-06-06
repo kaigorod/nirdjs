@@ -15,7 +15,9 @@
     "clean": "rm -Rf node_modules",
     "publish": "",
     "lint": "bunx @biomejs/biome lint ./src",
-    "build": "bun run scripts/build.ts"
+    "build": "bun run scripts/build.ts",
+    "autodoc": "deno run --allow-env --allow-read --allow-write --allow-net scripts/autodoc.ts",
+    "concat": "bun run scripts/concat.ts"
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "^14.12.0",

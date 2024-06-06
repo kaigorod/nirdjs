@@ -11,7 +11,7 @@ Latest documentation is available at https://jsr.io/@kaigorod/charm/doc
 const counterCharm = charm(0);
 
 export const useCounter = () => useCharm(counterCharm);
-export const inc = counterCharm.update(prev => prev + 1);
+export const inc = () => counterCharm.update(prev => prev + 1);
 
 // Counter.tsx
 
