@@ -92,10 +92,10 @@ This way Charm stay independent from the `ReactContext` and does not require dev
 
 ### Data consistancy
 
-When you don't expose raw set-state API to the world, your charms transition from one meaningful state to another.
-There is no transional or partially correct state of the charms.
+When you don't expose raw set-state API to the world, your charms transition from one meaningful state to the another.
+There is no transitional or partially correct state of the charms.
 
-No arbitrary code is able to modify the state of your cahrms. 
+No arbitrary code is able to modify the state of your charms. 
 
 When you refactor you code or fix a bug, you are certain that you only have a single place to make change to or to review.
 
