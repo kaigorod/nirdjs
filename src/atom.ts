@@ -1,23 +1,22 @@
-import { useEffect, useState } from "react";
 import { getStore } from "./store";
 
 export type Subscriber<Value> = (nextValue: Value, prevValue: Value) => void;
 
-let charmCounter = 0;
+let atomCounter = 0;
 
 /**
  * Updater function. get @param @prev previous @param Value and return next value
- * @see {@link Charm.update}
+ * @see {@link Atom.update}
  */
 export type UpdateFn<Value> = (prev: Value) => Value;
 
 
 /**
- * Callback function to skip notification of subscriber when @see {@link Charm} value has not actually changed.
+ * Callback function to skip notification of subscriber when @see {@link Atom} value has not actually changed.
  * Should return `true` to skip notification, just as `===`.
  * 
- * @see {@link Charm.update}
- * @see {@link Charm.sub}
+ * @see {@link Atom.update}
+ * @see {@link Atom.sub}
  */
 export type IgnoreWhenFn<Value> = (
   prevValue: Value,
@@ -27,12 +26,12 @@ export type IgnoreWhenFn<Value> = (
 let batching: Array<() => void> | undefined = undefined;
 
 /**
- * The configuration of a charm.
+ * The configuration of a atom.
  */
-export type CharmConfig<Value> = {
+export type AtomConfig<Value> = {
   /**
-   * when previous and next value of the charm are the same, then
-   * charm will not notify subscriber about the change.
+   * when previous and next value of the atom are the same, then
+   * atom will not notify subscriber about the change.
    * This way you can avoid unnecessary recalculations and re-render of the UI.
    * 
    * defaults to @see {@link isIdentical}.
@@ -40,7 +39,7 @@ export type CharmConfig<Value> = {
    */
   ignoreWhen?: IgnoreWhenFn<Value>;
   /**
-   * Debug label of this charm
+   * Debug label of this atom
    */
   debugLabel?: string;
 };
@@ -56,13 +55,13 @@ export const isIdentical = <Value>(a: Value, b: Value): boolean =>
   a === b || (Number.isNaN(a) && Number.isNaN(b));
 
 /**
- * Can be used as @see {@link CharmConfig.ignoreWhen} value. 
- * Will cause charm to always notify subscriber even when the value has not bee not changed.
+ * Can be used as @see {@link AtomConfig.ignoreWhen} value. 
+ * Will cause atom to always notify subscriber even when the value has not bee not changed.
  */
 export const neverIgnore = undefined;
 
 /**
- * Used when no @see {@link charm()} config is provided
+ * Used when no @see {@link atom()} config is provided
  */
 export const defaultConfig = {
   /** 
@@ -70,38 +69,38 @@ export const defaultConfig = {
    */
   ignoreWhen: isIdentical,
 
-  /** using "charm" as default */
-  debugLabel: "charm",
+  /** using "atom" as default */
+  debugLabel: "atom",
   /** 
-   * helps debugging situations when you `charm.set(fn)` by mistake
+   * helps debugging situations when you `atom.set(fn)` by mistake
    * @default false
    */
   allowFnValue: false,
 };
 
-const getStoreCharmValue = <Value>(charm: Charm<Value>): Value => {
-  return getStore().charm2value.get(charm.id()) as Value
+const getStoreAtomValue = <Value>(atom: Atom<Value>): Value => {
+  return getStore().atom2value.get(atom.id()) as Value
 }
 
-const setStoreCharmValue = <Value>(charm: Charm<Value>, value: Value) => {
-  return getStore().charm2value.set(charm.id(), value);
+const setStoreAtomValue = <Value>(atom: Atom<Value>, value: Value) => {
+  return getStore().atom2value.set(atom.id(), value);
 }
 
 /**
- * Charm type. Hold a specific value in a @see {@link Store}
+ * Atom type. Hold a specific value in a @see {@link Store}
  */
-export type Charm<Value> = {
+export type Atom<Value> = {
   /**
-   * returns number id of the charm. Doesn't change.
+   * returns number id of the atom. Doesn't change.
    */
   id: () => number,
   /**
    * 
-   * @returns current value of the charm in the Store
+   * @returns current value of the atom in the Store
    */
   get: () => Value,
   /**
-   * Set new current value of the charm in the Store
+   * Set new current value of the atom in the Store
    * @param value 
    * @returns 
    */
@@ -113,13 +112,13 @@ export type Charm<Value> = {
    */
   update: (updateFn: UpdateFn<Value>) => void,
   /**
-   * Add new subscriber to this charm
+   * Add new subscriber to this atom
    * @param subscriber 
    * @returns 
    */
   sub: (subscriber: Subscriber<Value>) => void,
   /**
-   * Remove this subscriber from the charm
+   * Remove this subscriber from the atom
    * @param subscriber 
    * @returns 
    */
@@ -130,21 +129,21 @@ export type Charm<Value> = {
   toString: () => string
 }
 /**
- * Create new charm particle.
- * @param initialValue the value this charm gets initialy or resets to. Should be of type Value.
- * @param charmConfig optional
- * @returns new Charm.
+ * Create new atom particle.
+ * @param initialValue the value this atom gets initialy or resets to. Should be of type Value.
+ * @param atomConfig optional
+ * @returns new Atom.
  */
-export const charm = <Value>(
+export const atom = <Value>(
   initialValue: Value,
-  charmConfig?: CharmConfig<Value>,
-): Charm<Value> => {
+  atomConfig?: AtomConfig<Value>,
+): Atom<Value> => {
   // let currentValue: Value = initialValue;
   const subscribers = new Set<Subscriber<Value>>();
-  const charmId = charmCounter++;
+  const atomId = atomCounter++;
 
-  const config = charmConfig
-    ? { ...defaultConfig, ...charmConfig }
+  const config = atomConfig
+    ? { ...defaultConfig, ...atomConfig }
     : defaultConfig;
 
   const notifyNow = (nextValue: Value, prevValue: Value) => {
@@ -169,20 +168,20 @@ export const charm = <Value>(
     });
   };
 
-  const charm: Charm<Value> = {
+  const atom: Atom<Value> = {
     id() {
-      return charmId;
+      return atomId;
     },
     get(): Value {
-      return getStoreCharmValue<Value>(this);
+      return getStoreAtomValue<Value>(this);
     },
     set(nextValue: Value) {
       if (!config.allowFnValue && typeof nextValue === "function") {
-        console.trace("charm set fn", config.debugLabel, nextValue);
+        console.trace("atom set fn", config.debugLabel, nextValue);
         return;
       }
       const prevValue = this.get();
-      setStoreCharmValue(this, nextValue);
+      setStoreAtomValue(this, nextValue);
       notify(nextValue, prevValue);
     },
     update(setterFn: UpdateFn<Value>) {
@@ -192,54 +191,29 @@ export const charm = <Value>(
     },
     sub(subscriber: Subscriber<Value>) {
       if (!subscriber || typeof subscriber !== "function") {
-        throw new Error(`Couldn't add charm sub: ${subscriber}`);
+        throw new Error(`Couldn't add atom sub: ${subscriber}`);
       }
       subscribers.add(subscriber);
     },
     unsub(subscriber: Subscriber<Value>) {
       if (!subscriber || typeof subscriber !== "function") {
-        throw new Error(`Couldn't add charm sub: ${subscriber}`);
+        throw new Error(`Couldn't add atom sub: ${subscriber}`);
       }
       subscribers.delete(subscriber);
     },
     toString() {
-      return `${config.debugLabel}:${charmId}: [${this.get()}]`;
+      return `${config.debugLabel}:${atomId}: [${this.get()}]`;
     },
   };
 
-  charm.set(initialValue)
+  atom.set(initialValue)
 
-  return charm;
+  return atom;
 };
 
 /**
- * The usual React hook to get charm value and subscribes the caller Component.
- * Use it only in React functional components or other react hooks.
- * You are very welcome to create new React hooks using it. 
- * 
- * @param charm 
- * @returns current value of the @param charm, on every render
- */
-export const useCharm = <Value>(charm: Charm<Value>): Value => {
-  const [value, setValue] = useState(charm.get());
-
-  useEffect(() => {
-    const subscriber: Subscriber<Value> = (
-      nextValue: Value,
-      _prevValue: Value,
-    ) => {
-      setValue(nextValue);
-    };
-    charm.sub(subscriber);
-    return () => charm.unsub(subscriber);
-  });
-
-  return value;
-};
-
-/**
- * Performs charm transation. Internally: 
- * 1) starts postponing all charm notifications
+ * Performs atom transation. Internally: 
+ * 1) starts postponing all atom notifications
  * 2) calls await @param fn()
  * 3) performs all postponed notifications
  */

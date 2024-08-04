@@ -1,17 +1,17 @@
-# What is Charm
+# What is Inert
 
-Charm is an atomic state management library for React.
+Inert is an atomic state management library for React.
 
-Latest documentation is available at https://jsr.io/@kaigorod/charm/doc
+Latest documentation is available at https://jsr.io/inert/doc
 
 ```jsx
 
-// counterCharm.ts 
+// counterAtom.ts 
 
-const counterCharm = charm(0);
+const counterAtom = atom(0);
 
-export const useCounter = () => useCharm(counterCharm);
-export const inc = () => counterCharm.update(prev => prev + 1);
+export const useCounter = () => useValue(counterAtom);
+export const inc = () => counterAtom.update(prev => prev + 1);
 
 // Counter.tsx
 
@@ -29,7 +29,7 @@ const Counter = () => {
 
 ## Atoms stay protected
 
-Notice that `counterCharm` is not exported directly. 
+Notice that `counterAtom` is not exported directly. 
 This way we avoid unexpected direct modifications of the charm we created.
 
 Instead, we create and expose micro-API to interact with the charm. 
@@ -174,8 +174,8 @@ For even larger projects it might make sense to move state actions of a specific
 
 // word.ts 
 
-const wordCharm = charm("compatibility");
-const lettersCharm = derivedCharm(wordCharm, (word) => word.length, NeverSet)
+const wordAtom = atom("compatibility");
+const lettersAtom = derivedAtom(wordAtom, (word) => word.length, NeverSet)
 
 export const useWord = () => useCharm(wordCharm)
 export const setWord = charmSetter(wordCharm)
@@ -206,35 +206,35 @@ const WordAndLetters = () => {
 
 ```jsx
 import { expect, mock, test } from "bun:test";
-import { splitCharm } from "../src/arrays";
-import { charm, type Charm } from "../src/charm";
+import { splitAtom } from "../src/arrays";
+import { atom, type Atom } from "../src/inert";
 
-test("charmList does not change when single value changes", () => {
-  const arrayCharm = charm([10, 20]);
-  const splitArrayCharm = splitCharm(arrayCharm);
+test("atomList does not change when single value changes", () => {
+  const arrayAtom = atom([10, 20]);
+  const splitArrayAtom = splitAtom(arrayAtom);
 
-  const charm0: Charm<number> = splitArrayCharm.get()[0];
-  const charm1: Charm<number> = splitArrayCharm.get()[1];
+  const atom0: Atom<number> = splitArrayAtom.get()[0];
+  const atom1: Atom<number> = splitArrayAtom.get()[1];
 
   const nopFn = () => { }
-  const subCharmMock = mock(nopFn as any)
+  const subAtomMock = mock(nopFn as any)
   const sub0 = mock(nopFn as any)
   const sub1 = mock(nopFn as any)
 
   /// test
 
 
-  splitArrayCharm.sub(subCharmMock)
-  charm0.sub(sub0);
-  charm1.sub(sub1);
+  splitArrayAtom.sub(subAtomMock)
+  atom0.sub(sub0);
+  atom1.sub(sub1);
 
-  charm0.set(0);
+  atom0.set(0);
 
   expect(sub0).toHaveBeenCalledTimes(1);
 
   expect(sub1).toHaveBeenCalledTimes(0);
 
-  expect(subCharmMock).toHaveBeenCalledTimes(0);
+  expect(subAtomMock).toHaveBeenCalledTimes(0);
 });
 
 ```
@@ -243,10 +243,10 @@ test("charmList does not change when single value changes", () => {
 
 ```jsx
 
-const aCharm = charm(1);
+const aAtom = atom(1);
 
 const Comp = ({}) => {
-  const value = useCharm(aCharm)
+  const value = useValue(aAtom)
   return <button>
     {value}
   </button>
@@ -254,14 +254,14 @@ const Comp = ({}) => {
 
 
 test("render two pages at the same time", () => {
-  const page1 = execWithCharm(createCharmStore(), () => {
+  const page1 = execWithAtom(createAtomStore(), () => {
     const comp = <Comp />
-    aCharm.set(10);
+    aAtom.set(10);
     return renderToString(comp)
   })
-  const page2 = execWithCharm(createCharmStore(), () => {
+  const page2 = execWithAtom(createAtomStore(), () => {
     const comp = <Comp />
-    aCharm.set(20);
+    aAtom.set(20);
     return renderToString(comp)
   })
 
@@ -275,7 +275,7 @@ test("render two pages at the same time", () => {
 
 ```sh
 
-npx jsr add @kaigorod/charm
+npx jsr add inert
 
 # or
 
@@ -283,7 +283,7 @@ bunx
 
 # or
 
-deno add @kaigorod/charm
+deno add inert
 
 ```
 
@@ -292,27 +292,27 @@ This command will add the following line to your `package.json` file
 ```json
 {
   //in package.json, 
-  "@kaigorod/charm": "npm:@jsr/kaigorod__charm",
+  "inert": "npm:@jsr/kaigorod__inert",
 }
 ```
 
 
 ```
-import { charm, charmGetter, charmSetter, useCharm } from "@kaigorod/charm";
+import { atom, atomGetter, atomSetter, useValue } from "atom";
 
-const isImageSearchOnCharm = charm(false);
+const isImageSearchOnAtom = atom(false);
 
-export const useIsImageSearchOn = () => useCharm(isImageSearchOnCharm);
-export const setIsImageSearchOn = charmSetter(isImageSearchOnCharm);
+export const useIsImageSearchOn = () => useValue(isImageSearchOnAtom);
+export const setIsImageSearchOn = atomSetter(isImageSearchOnAtom);
 ```
 
 
 
 
 # Inspiration
-Charm is inspired by recoil and jotai state management libraries.
+Inert is inspired by recoil and jotai state management libraries.
 
 # Links
 
-- Github Repo https://github.com/kaigorod/charm
-- Deno Package https://jsr.io/@kaigorod/charm
+- Github Repo https://github.com/kaigorod/inert
+- Deno Package https://jsr.io/inert

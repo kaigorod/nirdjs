@@ -1,46 +1,46 @@
-import { charm, type Charm, type CharmConfig } from "./charm";
+import { atom, type Atom, type AtomConfig } from "./atom";
 import type { GetFromSourceFn, SetToSourceFn } from "./utils";
 
 /**
- * Use it as a setter function for read-only charms.
+ * Use it as a setter function for read-only atoms.
  * @param _value 
  * @returns never for better typescript developer experience
  * @throws Error when called
  */
 export const NeverSet = <Value>(_value: Value): never => {
-  throw new Error("This charm is read-only");
+  throw new Error("This atom is read-only");
 };
 
 /**
- * Creates derived charm particle based on @param sourceCharm particle
+ * Creates derived atom particle based on @param sourceAtom particle
  * 
- * @param sourceCharm source charm to derive from
+ * @param sourceAtom source atom to derive from
  * @param deriveFromSource @see {@link GetFromSourceFn}
- * @param propagateToSource @see {@link SetToSourceFn}, when creating read-only derived charms then use @see {@link NeverSet} 
- * @param charmConfig 
+ * @param propagateToSource @see {@link SetToSourceFn}, when creating read-only derived atoms then use @see {@link NeverSet} 
+ * @param atomConfig 
  * 
- * @returns new Charm which is subscribed to @param @source charm
+ * @returns new Atom which is subscribed to @param @source atom
  */
 export const derive = <SourceValue, DerivedValue>(
-  sourceCharm: Charm<SourceValue>,
+  sourceAtom: Atom<SourceValue>,
   deriveFromSource: GetFromSourceFn<SourceValue, DerivedValue>,
   propagateToSource: SetToSourceFn<SourceValue, DerivedValue>,
-  charmConfig?: CharmConfig<DerivedValue>,
-): Charm<DerivedValue> => {
-  const innerCharm = charm(deriveFromSource(sourceCharm.get()), charmConfig);
-  sourceCharm.sub((nextSourceValue: SourceValue) => {
-    innerCharm.set(deriveFromSource(nextSourceValue));
+  atomConfig?: AtomConfig<DerivedValue>,
+): Atom<DerivedValue> => {
+  const innerAtom = atom(deriveFromSource(sourceAtom.get()), atomConfig);
+  sourceAtom.sub((nextSourceValue: SourceValue) => {
+    innerAtom.set(deriveFromSource(nextSourceValue));
   });
 
   return {
-    ...innerCharm,
+    ...innerAtom,
     get() {
-      return innerCharm.get();
+      return innerAtom.get();
     },
     set(nextValue: DerivedValue) {
-      const nextSourceValue = propagateToSource(nextValue, sourceCharm.get());
-      innerCharm.set(nextValue);
-      sourceCharm.set(nextSourceValue);
+      const nextSourceValue = propagateToSource(nextValue, sourceAtom.get());
+      innerAtom.set(nextValue);
+      sourceAtom.set(nextSourceValue);
     },
   };
 };

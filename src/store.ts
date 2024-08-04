@@ -1,39 +1,39 @@
 
 let storeSeq = 0;
 
-const createCharmStoreClosure = (storeSeq: number): CharmStore => {
+const createAtomStoreClosure = (storeSeq: number): AtomStore => {
   return {
     getStoreId() {
       return storeSeq;
     },
-    charm2value: new Map<number, unknown>(),
+    atom2value: new Map<number, unknown>(),
   }
 }
 
 /**
- * Type of CharmStore
+ * Type of AtomStore
  */
-export type CharmStore = {
+export type AtomStore = {
   /**
    * 
    * @returns unique store id, number
    */
   getStoreId: () => number,
   /**
-   * Map which binds charmId to the value of the Charm in the Store
+   * Map which binds atomId to the value of the Atom in the Store
    */
-  charm2value: Map<number, unknown>
+  atom2value: Map<number, unknown>
 };
 
 /**
- * @returns new CharmStore with unique storeId
+ * @returns new AtomStore with unique storeId
  */
-export const createCharmStore = (): CharmStore => {
-  return createCharmStoreClosure(storeSeq++);
+export const createAtomStore = (): AtomStore => {
+  return createAtomStoreClosure(storeSeq++);
 }
 
 
-let defaultStore: undefined | CharmStore = createCharmStore();
+let defaultStore: undefined | AtomStore = createAtomStore();
 
 /**
  * 
@@ -41,14 +41,14 @@ let defaultStore: undefined | CharmStore = createCharmStore();
  * Multiple server requests should not use the same store.
  * Instead use:
  * - @see {@link disableDefaultStore}
- * - @see {@link AsyncLocalStorageCharmProvider} instead
+ * - @see {@link AsyncLocalStorageAtomProvider} instead
  * - @see {@link setStoreProvider}
  * 
  * @returns default Store. Fine for browser frontend environment.
  */
-export const getDefaultStore = (): CharmStore => {
+export const getDefaultStore = (): AtomStore => {
   if (defaultStore === undefined) {
-    throw new Error('default store was disable before. Use CharmProvider or execWithCharm')
+    throw new Error('default store was disable before. Use AtomProvider or execWithAtom')
   }
   return defaultStore;
 }
@@ -61,15 +61,15 @@ export const disableDefaultStore = (): void => {
   defaultStore = undefined
 }
 
-let storeProvider = (): CharmStore => defaultStore as CharmStore;
+let storeProvider = (): AtomStore => defaultStore as AtomStore;
 
 /**
  * Returns new or existing Store. As an application developer, you don't have to use it. 
- * use `charm.get()`, `charm.set()`, `charm.update` and `useCharm` functions instead.
+ * use `atom.get()`, `atom.set()`, `atom.update()` and `useValue()` functions instead.
  * 
  * @returns calls {@link storeProvider} function to create or use existing Store.
  */
-export const getStore = (): CharmStore => {
+export const getStore = (): AtomStore => {
   return storeProvider()
 }
 
@@ -78,24 +78,24 @@ export const getStore = (): CharmStore => {
  * ```
  *   disableDefaultStore()
  *   setStoreProvider(asyncLocalStorageStoreProvider)
- *   const page1 = execWithCharm(createCharmStore(), () => {
+ *   const page1 = execWithAtom(createAtomStore(), () => {
  *     const comp = <Comp />
- *     aCharm.set(10);
+ *     aAtom.set(10);
  *     return renderToString(comp)
  *   })
- *   const page2 = execWithCharm(createCharmStore(), () => {
+ *   const page2 = execWithAtom(createAtomStore(), () => {
  *     const comp = <Comp />
- *     aCharm.set(20);
+ *     aAtom.set(20);
  *     return renderToString(comp)
  *   })
  *   expect(page1).toEqual("<button>10</button>")
  *   expect(page2).toEqual("<button>20</button>")
  * 
  * ```
- * @param storeProviderParam function which return a CharmStore
- * for SSR and SSG must returns a new @see {@link CharmStore} instance
- * for browser frontend ok to return a default @see {@link CharmStore} instance
+ * @param storeProviderParam function which return a AtomStore
+ * for SSR and SSG must returns a new @see {@link AtomStore} instance
+ * for browser frontend ok to return a default @see {@link AtomStore} instance
  */
-export const setStoreProvider = (storeProviderParam: () => CharmStore): void => {
+export const setStoreProvider = (storeProviderParam: () => AtomStore): void => {
   storeProvider = storeProviderParam;
 }
