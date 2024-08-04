@@ -12,7 +12,7 @@ export const NeverSet = <Value>(_value: Value): never => {
 };
 
 /**
- * Creates derived atom particle based on @param sourceAtom particle
+ * Creates derived atom based on @param sourceAtom
  * 
  * @param sourceAtom source atom to derive from
  * @param deriveFromSource @see {@link GetFromSourceFn}

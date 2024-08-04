@@ -20,7 +20,7 @@ NextJs App Router
 
 Jotai and Inert compared
   Inert has better Types than Jotai
-  It's easier to create own particle using Inert
+  It's easier to create own atom using Inert
   Inert has better async by supportig React 19 Actions
   Inert has better separation of concepts
 Jotai to Inert migration guide
@@ -59,8 +59,8 @@ set vs update
 Better types
 Core internals
 Immutable Actions
-Composing particles
-Creating custom particles
+Composing atoms
+Creating custom atoms
 Closure advanced guide
 
 Reference

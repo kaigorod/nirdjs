@@ -124,12 +124,12 @@ export type Atom<Value> = {
    */
   unsub: (subscriber: Subscriber<Value>) => void,
   /** 
-   * return unique string representation of this particle and it's state
+   * return unique string representation of this atom and it's state
   */
   toString: () => string
 }
 /**
- * Create new atom particle.
+ * Create new atom .
  * @param initialValue the value this atom gets initialy or resets to. Should be of type Value.
  * @param atomConfig optional
  * @returns new Atom.

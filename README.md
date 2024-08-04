@@ -150,7 +150,7 @@ For larger project, mc recommends to split state operation and user actions code
 
 ### State actions layer
 
-The state actions are simple JavaScript functions on top of the state particles.
+The state actions are simple JavaScript functions on top of the state atoms.
 
 The state actions code knows nothing about user actions, DOM, UI, HTML and Components. 
 
@@ -168,7 +168,7 @@ This way, all the UI-complication doesn't get mixed up with the business logic.
 For even larger projects it might make sense to move state actions of a specific business domain to a dedicated workspace package.
 
 
-# Derived particles
+# Derived atoms
 
 ```jsx
 

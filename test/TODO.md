@@ -13,7 +13,7 @@ useValue in React component
 
 
 Derived
-- derived 3-particles chain 
+- derived 3-atoms chain 
 - batch of derived
 - 
 
