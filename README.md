@@ -30,9 +30,9 @@ const Counter = () => {
 ## Atoms stay protected
 
 Notice that `counterAtom` is not exported directly. 
-This way we avoid unexpected direct modifications of the charm we created.
+This way we avoid unexpected direct modifications of the atom we created.
 
-Instead, we create and expose micro-API to interact with the charm. 
+Instead, we create and expose micro-API to interact with the atom. 
 
 ## useCounter
 
@@ -45,11 +45,11 @@ So, when a counter changes then the components re-renders.
 
 ## Avoid setter callback hooks
 
-Notice, there is no `setCounter` function returned by the useCharm hook. 
-One of the distiguishing features of Charm is that your Component doesn't 
+Notice, there is no `setCounter` function returned by the useValue hook. 
+One of the distiguishing features of Inert is that your Component doesn't 
 have to subscribe to the changes of the hooks. 
 
-You can update Charm value by simple functions. 
+You can update Atom value by simple functions. 
 You don't need to call the hook to create new function every render. 
 
 There several benefits to it:
@@ -60,14 +60,14 @@ There several benefits to it:
 - you write less code, and your code is more readable
 
 So, this way the only case your components re-render is the actual 
-change of the atom they implicitly subscribed to using the `useCharm` hook.
+change of the atom they implicitly subscribed to using the `useValue` hook.
 
 ### How update callbacks work internally
 
 Modern state management libaries, in addition to managing front-end state have to provide compatibility 
 with Server-Side Rendering (SSR) and Server-Side Generation (SSG) rendering. In this mode, the page of 
-the application are rendered in-parallel. This way every charm sits in the memory of the node application 
-in multiple instances, one per every page being rendered. A specific state of all charms and variables
+the application are rendered in-parallel. This way every atom sits in the memory of the node application 
+in multiple instances, one per every page being rendered. A specific state of all atoms and variables
 required to render a single page is called Store.
 
 Let's look at the example of a todo app which uses server-side rendering. 
@@ -79,8 +79,8 @@ To distinguish page renders, tools like redux, recoil, jotai use ReactContext-ba
 They use ReactContext providers at the root of the render tree and then use ReactContext on the leaves of the render tree.
 This is why they force users to create callbacks using hooks in order to pass the rendering context to the hooks.
 
-Unlike other libraries, Charm is using `AsyncLocalStorage` to pass rendering context to the callbacks and other functions. 
-This way Charm stay independent from the `ReactContext` and does not require developers to write hooks for callbacks.
+Unlike other libraries, Inert is using `AsyncLocalStorage` to pass rendering context to the callbacks and other functions. 
+This way Inert stay independent from the `ReactContext` and does not require developers to write hooks for callbacks.
 
 ###
 
@@ -92,10 +92,10 @@ This way Charm stay independent from the `ReactContext` and does not require dev
 
 ### Data consistancy
 
-When you don't expose raw set-state API to the world, your charms transition from one meaningful state to the another.
-There is no transitional or partially correct state of the charms.
+When you don't expose raw set-state API to the world, your atoms transition from one meaningful state to the another.
+There is no transitional or partially correct state of the atoms.
 
-No arbitrary code is able to modify the state of your charms. 
+No arbitrary code is able to modify the state of your atoms. 
 
 When you refactor you code or fix a bug, you are certain that you only have a single place to make change to or to review.
 
@@ -177,10 +177,10 @@ For even larger projects it might make sense to move state actions of a specific
 const wordAtom = atom("compatibility");
 const lettersAtom = derivedAtom(wordAtom, (word) => word.length, NeverSet)
 
-export const useWord = () => useCharm(wordCharm)
-export const setWord = charmSetter(wordCharm)
+export const useWord = () => useValue(wordAtom)
+export const setWord = atomSetter(wordAtom)
 
-export const useLetters = () => useCharm(lettersCharm)
+export const useLetters = () => useValue(lettersAtom)
 
 
 // Counter.tsx

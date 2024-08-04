@@ -73,6 +73,7 @@
     "atomic",
     "particle",
     "charm",
+    "charmjs",
     "inert",
     "inertjs",
     "zustand",
