@@ -1,11 +1,11 @@
 import { expect, mock, test } from "bun:test";
-import { arrayEltCharm } from "../src/arrays";
-import { charm } from "../src/charm";
+import { arrayEltAtom } from "../src/arrays";
+import { atom } from "../src/atom";
 
-test("arrayEltCharm", () => {
-  const arrayCharm = charm([1, 2]);
-  const elt0 = arrayEltCharm(arrayCharm, 0);
-  const elt1 = arrayEltCharm(arrayCharm, 1);
+test("arrayEltAtom", () => {
+  const arrayAtom = atom([1, 2]);
+  const elt0 = arrayEltAtom(arrayAtom, 0);
+  const elt1 = arrayEltAtom(arrayAtom, 1);
 
   expect(elt0.get()).toBe(1);
 
@@ -18,7 +18,7 @@ test("arrayEltCharm", () => {
   elt0.sub(mockFn0);
   elt1.sub(mockFn1);
 
-  arrayCharm.update((prev) => {
+  arrayAtom.update((prev) => {
     const next = [...prev];
     next[0] = 3;
     return next;

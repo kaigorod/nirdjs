@@ -1,7 +1,7 @@
 
 
 
-useCharm in React component
+useValue in React component
 - get 
 - updates
 

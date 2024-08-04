@@ -1,13 +1,14 @@
 import { expect, test } from "bun:test";
 import { renderToString } from 'react-dom/server';
-import { charm, useCharm } from "../src/charm";
-import { asyncLocalStorageStoreProvider, execWithCharm } from "../src/ssr/AsyncLocalStorageCharmProvider";
-import { createCharmStore, disableDefaultStore, getDefaultStore, setStoreProvider } from "../src/store";
+import { atom } from "../src/atom";
+import { asyncLocalStorageStoreProvider, execWithAtom } from "../src/ssr/AsyncLocalStorageAtomProvider";
+import { createAtomStore, disableDefaultStore, getDefaultStore, setStoreProvider } from "../src/store";
+import { useValue } from "../src/useValue";
 
-const aCharm = charm(1);
+const aAtom = atom(1);
 
 const Comp = ({ }) => {
-  const value = useCharm(aCharm)
+  const value = useValue(aAtom)
   return <button>
     {value}
   </button>
@@ -18,14 +19,14 @@ test("render two pages at the same time", () => {
   const savedDefaultStore = getDefaultStore()
   disableDefaultStore()
   setStoreProvider(asyncLocalStorageStoreProvider)
-  const page1 = execWithCharm(createCharmStore(), () => {
+  const page1 = execWithAtom(createAtomStore(), () => {
     const comp = <Comp />
-    aCharm.set(10);
+    aAtom.set(10);
     return renderToString(comp)
   })
-  const page2 = execWithCharm(createCharmStore(), () => {
+  const page2 = execWithAtom(createAtomStore(), () => {
     const comp = <Comp />
-    aCharm.set(20);
+    aAtom.set(20);
     return renderToString(comp)
   })
 

@@ -1,11 +1,11 @@
 import { expect, mock, test } from "bun:test";
-import { charm } from "../src/charm";
-import { propertyCharm } from "../src/propertyCharm";
+import { atom } from "../src/atom";
+import { propertyAtom } from "../src/propertyAtom";
 
-test("propertyCharm", () => {
-  const sourceCharm = charm({ a: 1, b: 2 });
-  const elt0 = propertyCharm(sourceCharm, "a");
-  const elt1 = propertyCharm(sourceCharm, "b");
+test("propertyAtom", () => {
+  const sourceAtom = atom({ a: 1, b: 2 });
+  const elt0 = propertyAtom(sourceAtom, "a");
+  const elt1 = propertyAtom(sourceAtom, "b");
 
   expect(elt0.get()).toBe(1);
 
@@ -18,7 +18,7 @@ test("propertyCharm", () => {
   elt0.sub(mockFn0);
   elt1.sub(mockFn1);
 
-  sourceCharm.update((prev) => ({
+  sourceAtom.update((prev) => ({
     ...prev,
     a: 3,
   }));

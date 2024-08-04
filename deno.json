@@ -1,5 +1,5 @@
 {
-  "name": "@kaigorod/charm",
+  "name": "inertjs",
   "version": "0.1.24",
   "description": "Atomic state management library for React",
   "exports": "./src/index.ts",
@@ -20,6 +20,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kaigorod/charm.git"
+    "url": "git+https://github.com/kaigorod/inert.git"
   }
 }

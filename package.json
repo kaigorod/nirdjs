@@ -1,5 +1,5 @@
 {
-  "name": "charmjs",
+  "name": "inertjs",
   "type": "module",
   "version": "0.1.25",
 
@@ -32,7 +32,7 @@
     "clean": "rm -Rf node_modules",
     "publish": "",
 
-    "lint": "bunx @biomejs/biome lint ./src ./test",
+    "lint": "npx @biomejs/biome lint ./src ./test",
 
     "esm": "tsc -b ./tsconfig.esm.json ",
     "cjs": "tsc -b ./tsconfig.cjs.json ",
@@ -73,12 +73,14 @@
     "atomic",
     "particle",
     "charm",
+    "inert",
+    "inertjs",
     "zustand",
     "store"
   ],
-  "homepage": "https://jsr.io/@kaigorod/charm",
+  "homepage": "https://jsr.io/inert",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kaigorod/charm.git"
+    "url": "git+https://github.com/kaigorod/inert.git"
   }
 }

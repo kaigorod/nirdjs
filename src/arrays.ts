@@ -1,21 +1,21 @@
-import type { Charm, CharmConfig, UpdateFn } from "./charm";
+import type { Atom, AtomConfig, UpdateFn } from "./atom";
 import { NeverSet, derive } from "./derive";
 import { replaceArrayElt } from "./langUtils";
 
 /**
- * Creates charm of single element of an array.
- * @see {@link splitCharm} returns an charm array
+ * Creates atom of single element of an array.
+ * @see {@link splitAtom} returns an atom array
  * 
- * @param source Charm which holds array
+ * @param source Atom which holds array
  * @param index of an element
- * @param config optional @see {@link CharmConfig}
- * @returns new Charm linked to element of arrary by index.
+ * @param config optional @see {@link AtomConfig}
+ * @returns new Atom linked to element of arrary by index.
  */
-export const arrayEltCharm = <Value>(
-  source: Charm<Array<Value>>,
+export const arrayEltAtom = <Value>(
+  source: Atom<Array<Value>>,
   index: number,
-  config?: CharmConfig<Value>,
-): Charm<Value> => {
+  config?: AtomConfig<Value>,
+): Atom<Value> => {
   return derive<Array<Value>, Value>(
     source,
     (value: Array<Value>) => value[index],
@@ -31,16 +31,16 @@ export const arrayEltCharm = <Value>(
 /**
  * Utility function to update a single element of an array.
  * 
- * @param arrayCharm charm which holds array
+ * @param arrayAtom atom which holds array
  * @param index Index of element to update
  * @param updateFn Update function 
  */
 export const updateElt = <Value>(
-  arrayCharm: Charm<Array<Value>>,
+  arrayAtom: Atom<Array<Value>>,
   index: number,
   updateFn: UpdateFn<Value>,
 ): void => {
-  arrayCharm.update((array) => replaceArrayElt(array, index, updateFn(array[index])));
+  arrayAtom.update((array) => replaceArrayElt(array, index, updateFn(array[index])));
 };
 
 /**
@@ -50,24 +50,24 @@ export const updateElt = <Value>(
  * @param containerConfig 
  * @returns 
  */
-export const splitCharm = <Value>(
-  source: Charm<Array<Value>>,
-  itemsConfig?: CharmConfig<Value>,
-  containerConfig?: CharmConfig<Array<Charm<Value>>>,
-): Charm<Array<Charm<Value>>> => {
-  const arrayOfCharms = new Array<Charm<Value>>();
+export const splitAtom = <Value>(
+  source: Atom<Array<Value>>,
+  itemsConfig?: AtomConfig<Value>,
+  containerConfig?: AtomConfig<Array<Atom<Value>>>,
+): Atom<Array<Atom<Value>>> => {
+  const arrayOfAtoms = new Array<Atom<Value>>();
   const valueArray = source.get();
-  const charmOfArrayToArrayOfCharms = () => {
+  const atomOfArrayToArrayOfAtoms = () => {
     for (let index = 0; index < valueArray.length; index++) {
-      const derived = arrayEltCharm<Value>(source, index, itemsConfig);
-      arrayOfCharms.push(derived);
+      const derived = arrayEltAtom<Value>(source, index, itemsConfig);
+      arrayOfAtoms.push(derived);
     }
-    return arrayOfCharms;
+    return arrayOfAtoms;
   };
 
-  return derive<Array<Value>, Array<Charm<Value>>>(
+  return derive<Array<Value>, Array<Atom<Value>>>(
     source,
-    charmOfArrayToArrayOfCharms,
+    atomOfArrayToArrayOfAtoms,
     NeverSet,
     containerConfig,
   );

@@ -1,6 +1,6 @@
-# Charm.js: Graceful State Management for React
+# Atom.js: Graceful State Management for React
 
-Charm.js is a sophisticated state management library specifically designed to handle React state with atomic precision and clear separation of concerns.
+Atom.js is a sophisticated state management library specifically designed to handle React state with atomic precision and clear separation of concerns.
 
 ## Features
 - **Atomic State Management**: Work with granular pieces of state.
@@ -12,34 +12,34 @@ Charm.js is a sophisticated state management library specifically designed to ha
 
 ## Installation
 
-To install Charm.js, run the following command in your project directory:
+To install Atom.js, run the following command in your project directory:
 
 ```bash
-npm install @kaigorod/charm
+npm install atom
 ```
 
 ## Usage
 
-1. **Create a Charm:**
+1. **Create a Atom:**
 
-   Start by creating a charm which holds your data.
+   Start by creating a atom which holds your data.
 
    ```typescript
-   import { charm } from '@kaigorod/charm';
+   import { atom } from 'inert';
 
-   const counterCharm = charm(0);
+   const counterAtom = atom(0);
    ```
 
-2. **Access and Update Charm in Components:**
+2. **Access and Update Atom in Components:**
 
-   Use `useCharm` to access and subscribe to changes in React components.
+   Use `useValue` to access and subscribe to changes in React components.
 
    ```jsx
-   import { useCharm, charmSetter } from '@kaigorod/charm';
+   import { useValue, atomSetter } from 'atom';
    
    const CounterComponent = () => {
-       const count = useCharm(counterCharm);
-       const increment = () => charmSetter(counterCharm)(count + 1);
+       const count = useValue(counterAtom);
+       const increment = () => atomSetter(counterInert)(count + 1);
 
        return <button onClick={increment}>Count is: {count}</button>;
    };
@@ -47,47 +47,47 @@ npm install @kaigorod/charm
 
 3. **Derive State:**
 
-   Create a derived state based on other charms.
+   Create a derived state based on other atoms.
 
    ```typescript
-   import { derive, NeverSet } from '@kaigorod/charm';
+   import { derive, NeverSet } from 'inert';
 
-   const doubleCountCharm = derive(counterCharm, count => count * 2, NeverSet);
+   const doubleCountAtom = derive(counterAtom, count => count * 2, NeverSet);
    ```
 
 ## Code Examples
 
-### Basic Charm Usage
+### Basic Atom Usage
 
 ```typescript
-import { charm, useCharm } from '@kaigorod/charm';
+import { atom, useValue } from 'atom';
 
-const messageCharm = charm("Hello, Charm!");
+const messageAtom = atom("Hello, Atom!");
 
 function App() {
-    const message = useCharm(messageCharm);
+    const message = useValue(messageAtom);
 
     return <div>{message}</div>;
 }
 ```
 
-### Using Derived Charms
+### Using Derived Atoms
 
 ```typescript
-import { charm, derive, useCharm, NeverSet } from '@kaigorod/charm';
+import { atom, derive, useValue, NeverSet } from 'atom';
 
-const originalCharm = charm(10);
-const derivedCharm = derive(originalCharm, value => value * 2, NeverSet);
+const originalAtom = atom(10);
+const derivedAtom = derive(originalAtom, value => value * 2, NeverSet);
 
 function DerivedExample() {
-    const derivedValue = useCharm(derivedCharm);
+    const derivedValue = useValue(derivedAtom);
     return <p>Derived Value: {derivedValue}</p>;
 }
 ```
 
 ## Testing
 
-Charm.js is unit tested using Jest. To run the tests:
+Atom.js is unit tested using Jest. To run the tests:
 
 ```bash
 npm test
@@ -96,24 +96,24 @@ npm test
 You can also write additional tests for derived states or batch updates:
 
 ```typescript
-import { charm, arrayEltCharm, batch } from '@kaigorod/charm';
+import { atom, arrayEltAtom, batch } from 'atom';
 
 // Test batch updates
 test('batch update functionality', async () => {
-    const arrayCharm = charm([0, 1, 2]);
+    const arrayAtom = atom([0, 1, 2]);
     await batch(() => {
-        arrayEltCharm(arrayCharm, 1)(10);
+        arrayEltAtom(arrayAtom, 1)(10);
     });
-    expect(arrayCharm.get()[1]).toBe(10);
+    expect(arrayAtom.get()[1]).toBe(10);
 });
 ```
 
 ## Contribution
 
-Contributions are welcome. Please fork the [GitHub repository](https://github.com/kaigorod/charm), make your changes, and submit a pull request.
+Contributions are welcome. Please fork the [GitHub repository](https://github.com/kaigorod/atom), make your changes, and submit a pull request.
 
 ## License
 
-Charm.js is [Apache-2.0 licensed](https://opensource.org/licenses/Apache-2.0). 
+Atom.js is [Apache-2.0 licensed](https://opensource.org/licenses/Apache-2.0). 
 
-Full documentation, including more examples and API description, can be found in the project's [online docs](https://jsr.io/@kaigorod/charm/doc).
+Full documentation, including more examples and API description, can be found in the project's [online docs](https://jsr.io/atom/doc).

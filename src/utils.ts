@@ -1,20 +1,19 @@
-import { type Charm } from "./charm";
 
-export type CharmSetter<Value> = (value: Value) => void;
+export type AtomSetter<Value> = (value: Value) => void;
 
-export const charmSetter = <Value>(charm: Charm<Value>): CharmSetter<Value> => {
-  return (value: Value) => charm.set(value);
+export const atomSetter = <Value>(atom: Atom<Value>): AtomSetter<Value> => {
+  return (value: Value) => atom.set(value);
 };
 
-export type CharmGetter<Value> = () => Value;
-export const charmGetter = <Value>(charm: Charm<Value>): CharmGetter<Value> => {
-  return () => charm.get();
+export type AtomGetter<Value> = () => Value;
+export const atomGetter = <Value>(atom: Atom<Value>): AtomGetter<Value> => {
+  return () => atom.get();
 };
 
 /**
- * Extracts @param value of source charm to the value of derived charm
+ * Extracts @param value of source atom to the value of derived atom
  * 
- * @see {@link } and @see {@link arrayEltCharm} for usage examples.
+ * @see {@link } and @see {@link arrayEltAtom} for usage examples.
  */
 export type GetFromSourceFn<SourceValue, DerivedValue> = (
   value: SourceValue,
@@ -22,11 +21,11 @@ export type GetFromSourceFn<SourceValue, DerivedValue> = (
 
 /**
  * 
- * next value of derived charm @param nextDerivedValue
- * and previous value of source charm @param prevSourceValue.
- * When creating read-only derived charms then use @see {@link NeverSet}.
- * When derived charm is not read-only then setting derived charm 
- * will also update the sourceCharm
+ * next value of derived atom @param nextDerivedValue
+ * and previous value of source atom @param prevSourceValue.
+ * When creating read-only derived atoms then use @see {@link NeverSet}.
+ * When derived atom is not read-only then setting derived atom 
+ * will also update the sourceAtom
  * @return next Value of source based on 
  */
 export type SetToSourceFn<SourceValue, DerivedValue> = (

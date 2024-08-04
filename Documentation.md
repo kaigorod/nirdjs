@@ -2,7 +2,7 @@ Documentation
 
 Introduction
 
-Charm Server-side rendering
+Inert Server-side rendering
 Provider
 hydration
 Server Side Routing and State Management
@@ -12,23 +12,23 @@ Select Atom
 State management OpticsJs
 https://github.com/akheron/optics-ts
 
-NextJs Charm instruction
+NextJs Inert instruction
 Provider
 hydration
 NextJs App Router
 
 
-Jotai and Charm compared
-  Charm has better Types than Jotai
-  It's easier to create own particle using Charm
-  Charm has better async by supportig React 19 Actions
-  Charm has better separation of concepts
-Jotai to Charm migration guide
+Jotai and Inert compared
+  Inert has better Types than Jotai
+  It's easier to create own particle using Inert
+  Inert has better async by supportig React 19 Actions
+  Inert has better separation of concepts
+Jotai to Inert migration guide
 
-Recoil and Charm compared
+Recoil and Inert compared
 
-Redux and Charm compared
-Redux to Charm migration guide
+Redux and Inert compared
+Redux to Inert migration guide
 
 Tanstack useQuery
 
@@ -42,8 +42,8 @@ Vite
 
 Guides
 TypeScript
-NextJs Charm Guide
-Gatsby Charm Guide
+NextJs Inert Guide
+Gatsby Inert Guide
 Remix
 React Native Guide
 Debugging
@@ -64,15 +64,15 @@ Creating custom particles
 Closure advanced guide
 
 Reference
-charm()
-useCharm() -- get state and subscribe
-charm.set()
-charm.update
-charm.get() -- not useble in react components
-charm.sub -- dependency atoms
+atom()
+useValue() -- get state and subscribe
+atom.set()
+atom.update
+atom.get() -- not useble in react components
+atom.sub -- dependency atoms
 batch
-CharmConfig
-debouncedCharm
+AtomConfig
+debouncedAtom
 
 ToDo List app example
 
